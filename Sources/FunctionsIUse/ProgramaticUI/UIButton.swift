@@ -9,12 +9,16 @@ import UIKit
 
 extension UIButton {
     func setUpViews(_ title: String,
-                    titleColor: UIColor = .dynamicTextWhite,
+                    titleColor: UIColor = .white,
                     background: UIColor = .clear,
                     fontSize: CGFloat = 18,
                     fontName: FontNames = .regular,
                     cornerRadius: CGFloat = 6,
-                    padding: [CGFloat]? = nil) {
+                    borderColor: UIColor? = nil,
+                    borderSize: CGFloat = 0,
+                    padding: [CGFloat]? = nil,
+                    alignmentX: UIControl.ContentHorizontalAlignment = .center,
+                    alignmentY: UIControl.ContentVerticalAlignment = .center) {
         // The title
         setTitle(title, for: .normal)
         setTitleColor(titleColor, for: .normal)
@@ -30,6 +34,16 @@ extension UIButton {
         // Round the corners
         layer.cornerRadius = cornerRadius
         layer.masksToBounds = true
+        
+        // The border
+        if let borderColor = borderColor {
+            layer.borderColor = borderColor.cgColor
+            layer.borderWidth = borderSize
+        }
+        
+        // The alignment
+        contentHorizontalAlignment = alignmentX
+        contentVerticalAlignment = alignmentY
         
         // Add padding
         if let padding = padding {

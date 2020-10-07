@@ -13,9 +13,10 @@ extension UILabel {
                      fontSize: CGFloat = 18,
                      fontName: FontNames = .regular,
                      alignment: NSTextAlignment = .left,
-                     automaticResizing: Bool = true) {
+                     autoResize: Bool = true,
+                     numberOfLines: Int = 0) {
         self.init()
-        setUpViews(text, color: color, fontSize: fontSize, fontName: fontName, alignment: alignment, automaticResizing: automaticResizing)
+        setUpViews(text, color: color, fontSize: fontSize, fontName: fontName, alignment: alignment, autoResize: autoResize, numberOfLines: numberOfLines)
     }
     
     /// A helper function to format the usual properties of a label
@@ -24,7 +25,8 @@ extension UILabel {
                     fontSize: CGFloat = 18,
                     fontName: FontNames = .regular,
                     alignment: NSTextAlignment = .left,
-                    automaticResizing: Bool = true) {
+                    autoResize: Bool = true,
+                    numberOfLines: Int = 0) {
         self.text = text
         
         // Color
@@ -37,17 +39,18 @@ extension UILabel {
         
         // Alignment
         textAlignment = alignment
-        numberOfLines = 0
+        self.numberOfLines = numberOfLines
         
         // Automatically resize as necessary
-        adjustsFontSizeToFitWidth = automaticResizing
+        adjustsFontSizeToFitWidth = autoResize
     }
     
-    /// Add an image before or after the text of a label and use the result as the label's text
+    /// Add an image before or after the text of a label
     func addImage(image: UIImage?, afterLabel: Bool = false) {
         guard let image = image else { return }
         let attachment = NSTextAttachment()
         attachment.image = image
+        // attachment.bounds = CGRect(x: 0, y: 0, width: intrinsicContentSize.height / 2, height: intrinsicContentSize.height / 2)
         let attachmentString = NSAttributedString(attachment: attachment)
         
         let startingText = self.text ?? ""
@@ -66,7 +69,6 @@ extension UILabel {
         }
     }
     
-    /// Add an image before or after a label and return the result for possible further manipulation before using it
     func addImageToText(image: UIImage?, text: NSMutableAttributedString, afterLabel: Bool = false) -> NSMutableAttributedString {
         let attachment = NSTextAttachment()
         attachment.image = image
@@ -92,5 +94,10 @@ extension UILabel {
                                       range: NSRange(location: 0, length: attributedString.length - 1))
         attributedText = attributedString
       }
+    }
+    
+    /// Change the font size
+    func changeSize(to fontSize: CGFloat) {
+        font = UIFont(name: font.familyName, size: fontSize)
     }
 }

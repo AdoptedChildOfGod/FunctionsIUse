@@ -10,9 +10,10 @@ import UIKit
 // MARK: - Format a view
 
 extension UIView {
-    convenience init(color: UIColor, alpha: CGFloat = 1, cornerRadius: CGFloat? = nil) {
+    convenience init(color: UIColor, alpha: CGFloat = 1, cornerRadius: CGFloat? = nil, tag: Int? = nil) {
         self.init()
         setUpViews(color: color, alpha: alpha, cornerRadius: cornerRadius)
+        if let tag = tag { self.tag = tag }
     }
     
     func setUpViews(color: UIColor, alpha: CGFloat = 1, cornerRadius: CGFloat? = nil) {
@@ -114,6 +115,16 @@ extension UIView {
         if let height = height {
             heightAnchor.constraint(equalTo: height, multiplier: heightMultiplier).isActive = true
         }
+    }
+    
+    /// A shortcut to center a view horizontally in another view
+    func anchorCenterX(to otherView: UIView, _ multiplier: CGFloat = 0.9) {
+        anchor(centerX: otherView.centerXAnchor, width: otherView.widthAnchor, widthMultiplier: multiplier)
+    }
+    
+    /// A shortcut to place one view below another
+    func anchorBelow(_ otherView: UIView, padding: CGFloat = 0) {
+        anchor(top: otherView.bottomAnchor, paddingTop: padding)
     }
     
     /// Anchor a view to a certain aspect ratio
